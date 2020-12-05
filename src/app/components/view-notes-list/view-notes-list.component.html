@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">My Notes</h1>
+    <!-- It won't show if there is no student data -->
+    <a routerLink="/add-notu" class="btn btn-success" *ngIf="hideWhenNoStudent">
+      <i class="fas fa-plus custom-fa-plus"></i>
+      Add Notes
+    </a>
+  </div>
+  
+  <div class="pricing-header mx-auto">
+  
+    <!-- Preloader shows before the data loads-->
+    <div class="no-data text-center" *ngIf="preLoader">
+      <img src="assets/preloader.gif" class="preloader-icon" alt="No student">
+    </div>
+  
+    <!-- No data shows when their is no student data available -->
+    <div class="no-data text-center" *ngIf="noData">
+      <img src="assets/no-student.svg" class="nodata-msg" alt="No Notes">
+      <p class="nodata-msg">No note added yet!</p>
+      <a routerLink="/add-notu" class="btn btn-success">
+        <i class="fas fa-plus custom-fa-plus"></i>
+        Add note
+      </a>
+    </div>
+  
+    <!-- Showing students data -->
+    <div class="table-responsive" *ngIf="hideWhenNoStudent">
+      <table class="table table-bordered table-responsive-sm table-responsive-md table-responsive-lg">
+        <thead>
+          <tr>
+            <!-- <th scope="col">Id</th> -->
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <!-- <th scope="col">Email</th>
+            <th scope="col">Mobile number</th> -->
+            <th class="text-center" scope="col">Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- *ngFor loop iterates over Student array and fetch the student's data -->
+          <!-- comments -->
+          <!-- paginate pipe will add pagination in student's list, it won't show if items are less then 7 -->
+          <tr *ngFor="let notu of coll | async">
+            <!-- <th scope="row">{{notu.$key}}</th> -->
+            <td>{{notu.title}}</td>
+            <td>{{notu.description}}</td>
+            <!-- <td>{{student.mobileNumber}}</td> -->
+            <td class="text-center action-block">
+              <i class="far fa-edit" [routerLink]="/edit-notu/(notu.id)"></i>
+              <i class="far fa-trash-alt" (click)="deleteStudent(notu.id)"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Comments -->
+    <!-- Pagination Controls-->
+    <pagination-controls (pageChange)="p = $event" autoHide="true" responsive="true"></pagination-controls>
+  
+  </div>
